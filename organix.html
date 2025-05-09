@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Organix - Sua Agenda Inteligente</title>
+  <style>
+    /* Tela de carregamento */
+    #splash {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: #0077cc;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: 32px;
+      font-weight: bold;
+      z-index: 9999;
+      animation: fadeOut 2s forwards;
+      animation-delay: 2.5s;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; visibility: hidden; }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    #logo {
+      animation: bounce 1.5s ease-in-out infinite;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4ff;
+      margin: 0;
+      padding: 0;
+      display: none; /* esconde o corpo até a tela splash sair */
+    }
+
+    header {
+      background-color: #0077cc;
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .task-input {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 15px;
+    }
+
+    .task {
+      background-color: white;
+      border-left: 5px solid #0077cc;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .task.done h3 {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    .task-buttons button {
+      margin-left: 5px;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #0077cc;
+      color: white;
+      padding: 15px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="splash">
+    <div id="logo">Organix</div>
+  </div>
+
+  <header>
+    <h1>Organix</h1>
+    <p>Sua agenda azul para uma vida mais leve e organizada</p>
+  </header>
+
+  <div class="container">
+    <div class="task-input">
+      <input type="text" id="novaTarefa" placeholder="Digite sua tarefa...">
+      <button onclick="adicionarTarefa()">Adicionar</button>
+    </div>
+
+    <div id="listaTarefas" class="task-list">
+      <!-- Tarefas serão adicionadas aqui -->
+    </div>
+  </div>
+
+  <footer>
+    <p>Organix © 2025 - Criado por Anderson</p>
+  </footer>
+
+  <script>
+    const tarefasIniciais = [
+      "Tomar medicamentos",
+      "Fazer TPC",
+      "Estudar para a feira",
+      "Ler 10 páginas",
+      "Beber água"
+    ];
+
+    function adicionarTarefa(texto) {
+      if (!texto) texto = document.getElementById("novaTarefa").value.trim();
+      if (texto === "") return;
+
+      const tarefa = document.createElement("div");
+      tarefa.className = "task";
+
+      const titulo = document.createElement("h3");
+      titulo.innerText = texto;
+
+      const areaTitulo = document.createElement("div");
+      areaTitulo.appendChild(titulo);
+
+      const botoes = document.createElement("div");
+      botoes.className = "task-buttons";
+
+      const botaoConcluir = document.createElement("button");
+      botaoConcluir.innerText = "Concluir";
+      botaoConcluir.onclick = () => tarefa.classList.toggle("done");
+
+      const botaoRemover = document.createElement("button");
+      botaoRemover.innerText = "Remover";
+      botaoRemover.onclick = () => tarefa.remove();
+
+      botoes.appendChild(botaoConcluir);
+      botoes.appendChild(botaoRemover);
+
+      tarefa.appendChild(areaTitulo);
+      tarefa.appendChild(botoes);
+
+      document.getElementById("listaTarefas").appendChild(tarefa);
+
+      document.getElementById("novaTarefa").value = "";
+    }
+
+    window.onload = () => {
+      // mostrar o corpo da página depois da animação
+      setTimeout(() => {
+        document.body.style.display = "block";
+      }, 2500);
+
+      // adicionar tarefas iniciais
+      tarefasIniciais.forEach(tarefa => adicionarTarefa(tarefa));
+    };
+  </script>
+</body>
+</html>
